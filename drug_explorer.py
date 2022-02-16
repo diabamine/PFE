@@ -31,11 +31,11 @@ def lipinski(mol):
         st.metric(label='Molecular Weight: ',value=round(Descriptors.MolWt(mol),2),delta='< 500')
     else:
         st.metric(label='Molecular Weight: ',value=round(Descriptors.MolWt(mol),2),delta='< 500',delta_color="inverse")
-    if nba < 5:
+    if nbd < 5:
         st.metric(label='Nb of Hydrogen Donors: ',value=round(Lipinski.NumHDonors(mol),2),delta='< 5')
     else:
         st.metric(label='Nb of Hydrogen Donors: ',value=round(Lipinski.NumHDonors(mol),2),delta='< 5',delta_color="inverse")
-    if nbd < 10:
+    if nba < 10:
         st.metric(label='Nb of Hydrogen Acceptors: ',value=round(Lipinski.NumHAcceptors(mol),2),delta='< 10')
     else:
         st.metric(label='Nb of Hydrogen Acceptors: ',value=round(Lipinski.NumHAcceptors(mol),2),delta='< 10',delta_color="inverse")
@@ -58,7 +58,7 @@ def render_mol(xyz):
 compound_smiles=st.text_input('Enter a drug name','imatinib')
 blk=makeblock(search_molecule(compound_smiles))
 
-col1, col2 = st.columns([4,1])
+col1, col2 = st.columns([4,2])
 
 with col1:
     render_mol(blk)
