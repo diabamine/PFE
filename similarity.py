@@ -11,7 +11,7 @@ from rdkit.Chem import AllChem
 from rdkit import DataStructs
 
 #st.set_page_config(layout=‘wide’)
-st.title('Compound Similarity')
+
 
 def search_molecule(mol):
     drug = pcp.get_compounds(mol,'name')
@@ -50,31 +50,31 @@ def render_mol(xyz):
 
 
 
+def showpage():
+    st.title('Compound Similarity')
+    col1, col2 = st.columns([5,5])
 
+    with col1:
+        compound_1 = st.text_input('Enter a drug 1','imatinib')
+        smile_1 = search_molecule(compound_1)
+        struct_1 = makeblock(smile_1)
+        render_mol(struct_1)
+    with col2:
+        compound_2 = st.text_input('Enter a drug 2','aspirin')
+        smile_2 = search_molecule(compound_2)
+        struct_2 = makeblock(smile_2)
+        render_mol(struct_2)
 
-col1, col2 = st.columns([5,5])
+    st.markdown("<h3 style='text-align: center;'>Similarity Score</h3>", unsafe_allow_html=True)
 
-with col1:
-    compound_1 = st.text_input('Enter a drug 1','imatinib')
-    smile_1 = search_molecule(compound_1)
-    struct_1 = makeblock(smile_1)
-    render_mol(struct_1)
-with col2:
-    compound_2 = st.text_input('Enter a drug 2','aspirin')
-    smile_2 = search_molecule(compound_2)
-    struct_2 = makeblock(smile_2)
-    render_mol(struct_2)
-
-st.markdown("<h3 style='text-align: center;'>Similarity Score</h3>", unsafe_allow_html=True)
-
-col3, col4, col5, col6 = st.columns([4.5,2,2,3])
-with col3:
-    st.write("")
-with col4:
-    tanimoto = similarity(smile_1,smile_2)
-    st.metric(label='Tanimoto: ',value=round(tanimoto[0],2))
-with col5:
-    dice = similarity(smile_1,smile_2)
-    st.metric(label='Dice: ',value=round(dice[1],2))
-with col6:
-    st.write("")
+    col3, col4, col5, col6 = st.columns([4.5,2,2,3])
+    with col3:
+        st.write("")
+    with col4:
+        tanimoto = similarity(smile_1,smile_2)
+        st.metric(label='Tanimoto: ',value=round(tanimoto[0],2))
+    with col5:
+        dice = similarity(smile_1,smile_2)
+        st.metric(label='Dice: ',value=round(dice[1],2))
+    with col6:
+        st.write("")

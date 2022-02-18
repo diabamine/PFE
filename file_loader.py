@@ -10,7 +10,8 @@ def render_mol(xyz):
     xyzview.zoomTo()
     showmol(xyzview, height = 500,width=800)
 
-uploaded_files = st.sidebar.file_uploader("Choose xyz files", accept_multiple_files=True)
-for uploaded_file in uploaded_files:
-    xyz = uploaded_file.getvalue().decode("utf-8")
-    render_mol(xyz)
+def showpage():
+    uploaded_files = st.sidebar.file_uploader("Choose xyz files", accept_multiple_files=True)
+    for uploaded_file in uploaded_files:
+        xyz = uploaded_file.getvalue().decode("utf-8")
+        render_mol(xyz)
