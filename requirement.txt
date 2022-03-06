@@ -1,0 +1,9 @@
+matplotlib
+streamlit
+pandas
+stmol
+py3Dmol
+pubchempy
+biopython
+pypdb
+rdkit-pypi
