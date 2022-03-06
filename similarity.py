@@ -51,16 +51,16 @@ def render_mol(xyz):
 
 
 def showpage():
-    st.title('Compound Similarity')
+    st.title('⚖️ Compound Similarity')
     col1, col2 = st.columns([5,5])
 
     with col1:
-        compound_1 = st.text_input('Enter a drug 1','imatinib')
+        compound_1 = st.text_input('Enter a drug 1','aciclovir')
         smile_1 = search_molecule(compound_1)
         struct_1 = makeblock(smile_1)
         render_mol(struct_1)
     with col2:
-        compound_2 = st.text_input('Enter a drug 2','aspirin')
+        compound_2 = st.text_input('Enter a drug 2','penciclovir')
         smile_2 = search_molecule(compound_2)
         struct_2 = makeblock(smile_2)
         render_mol(struct_2)

@@ -9,11 +9,26 @@ from rdkit.Chem import Descriptors
 from rdkit.ML.Descriptors.MoleculeDescriptors import MolecularDescriptorCalculator
 from rdkit.Chem import AllChem
 from rdkit import DataStructs
+import os
 
+def convert_smile_to_sdf(smile, name):
+    
+    mol = Chem.MolFromSmiles(smile)
+    hmol = Chem.AddHs(mol)
+    AllChem.EmbedMolecule(hmol,AllChem.ETKDG())
+    fullpath = os.path.join("compound_files", name)
+    writer = Chem.SDWriter(fullpath +'.sdf')
+    hmol.SetProp("_Library","%s"%smile)
+    hmol.SetProp("_Name","%s"%name)
+    hmol.SetProp("_SourceID","%s"%name)
+    hmol.SetProp("_SMILES","%s"%smile)
+    writer.write(hmol)
+    writer.close()
+    
+    return fullpath +'.sdf'
 
 def search_molecule(mol):
     drug = pcp.get_compounds(mol, 'name')
-    # show chemical formula
     return drug[0].isomeric_smiles
 
 
@@ -62,15 +77,21 @@ def render_mol(xyz):
 
 
 def showpage():
-    st.title('Search Compound')
+    st.title('💊 Search Compound')
     compound_smiles = st.text_input('Enter a drug name', 'imatinib')
     blk = makeblock(search_molecule(compound_smiles))
 
-    #col1, col2 = st.columns([4, 2])
+    col1, col2 = st.columns([4, 2])
 
-    #with col1:
-        #render_mol(blk)
-    #with col2:
-        #lipinski(Chem.MolFromSmiles(search_molecule(compound_smiles)))
-    render_mol(blk)
-    lipinski(Chem.MolFromSmiles(search_molecule(compound_smiles)))
+    with col1:
+        render_mol(blk)
+        fullpath = convert_smile_to_sdf(search_molecule(compound_smiles), compound_smiles)
+        with open(fullpath, "rb") as file:
+                btn = st.download_button(
+                    label="Download in sdf format",
+                    data=file,
+                    file_name=compound_smiles+".sdf",
+                    mime=None
+                )
+    with col2:
+        lipinski(Chem.MolFromSmiles(search_molecule(compound_smiles)))

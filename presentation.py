@@ -1,7 +1,7 @@
 import streamlit as st
 
 def showpage():
-    st.title("Projet fin d'études M2 Bio-informatique")
+    st.title("⚕️ Bionever Dashboard")
 
     with st.expander("L'informatique au service du drug design"):
         st.markdown("""

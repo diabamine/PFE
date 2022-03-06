@@ -17,18 +17,18 @@ def search_molecule(mol):
     # show chemical formula
     return drug[0].isomeric_smiles
 
-#def substructure(mol1,mol2):
-def substructure(mol1):
+def substructure(mol1,mol2):
     sub = mol1
-    #sub.GetSubstructMatches(mol2)
+    sub.GetSubstructMatches(mol2)
     st.write("2D structure")
-    return sub
+    im=Draw.MolToImage(sub)
+    st.image(im)
 
 def makeblock(smi):
     mol = Chem.MolFromSmiles(smi)
     mol = Chem.AddHs(mol)
     AllChem.EmbedMolecule(mol)
-    mblock = Chem.MolToMolBlock(mol)
+    mblock = Chem.MolToMolBlock(mol) 
     return mblock
 
 def render_mol(xyz):
@@ -41,34 +41,23 @@ def render_mol(xyz):
     showmol(xyzview,height=500,width=800)
 
 def showpage():
-    st.title('Find Substructure')
+    st.title('⚛️ Find Substructure')
 
-    list_choice = ["Drug name", "Smile format"]
-    choice = st.selectbox("What would you like to do ?", list_choice)
+    
+    compound_smiles=st.text_input('Enter a drug name','exanta')
+    smile_2=st.text_input('Enter a SMILE formula','C=O')
 
-    if (choice == "Drug name"):
-        compound_smiles=st.text_input('Enter a drug name','exanta')
+    col1, col2 = st.columns([2,2])
 
-        mol1=Chem.MolFromSmiles(search_molecule(compound_smiles))
-        blk=makeblock(search_molecule(compound_smiles))
+    mol1=Chem.MolFromSmiles(search_molecule(compound_smiles))
+    mol2=Chem.MolFromSmiles(smile_2)
+    blk=makeblock(search_molecule(compound_smiles))
+    with col1:
         render_mol(blk)
-
-        sub = substructure(mol1)
-        im=Draw.MolToImage(sub)
-        st.image(im)
-
-    if (choice == "Smile format"):
-        mol = st.text_input('Enter a subsrtucture in smile format','')
-
-        #3D
-        blk = makeblock(mol)
-        render_mol(blk)
-
-        #2D 
-        mol2=Chem.MolFromSmiles(mol)
-        st.image(Chem.Draw.MolToImage(mol2))
-
-
+    
+    with col2:
+        substructure(mol1,mol2)
+    
 
 
 
