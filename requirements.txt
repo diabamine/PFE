@@ -6,4 +6,5 @@ py3Dmol
 pubchempy
 biopython
 pypdb
+libxrender1
 rdkit-pypi==2021.3.5.1
